@@ -1,3 +1,11 @@
+var locations = [
+  {name: 'Giza pyramids', location: {lat: 29.979322, lng: 31.132781}},
+  {name: 'pyramids gardens', location: {lat: 29.971594, lng: 31.097261}},
+  {name: 'The Grand Egyptian Museum', location: {lat: 29.994948, lng: 31.118989}},
+  {name: 'Cairo University', location: {lat: 30.026301, lng: 31.200953}},
+  {name: 'Giza pyramids', location: {lat: 29.871261, lng: 31.216554}}
+];
+
 /* create map */
 function initMap() {
   // Constructor creates a new map - only center and zoom are required.
