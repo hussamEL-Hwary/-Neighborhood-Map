@@ -6,6 +6,30 @@ var locations = [
   {name: 'Giza pyramids', location: {lat: 29.871261, lng: 31.216554}}
 ];
 
+var modelView = function(){
+  var self = this;
+  self.mapitems = [];
+  /*var map;*/
+  var bounds = new google.maps.LatLngBounds();
+
+  for (var i = 0; i < locations.length; i++) {
+
+    // Create a marker per location, and put into markers array.
+    var marker = new google.maps.Marker({
+      map: map,
+      position: locations[i].location,
+      title: locations[i].name,
+      animation: google.maps.Animation.DROP,
+      id: i
+    });
+
+    self.mapitems.push(marker);
+    bounds.extend(self.mapitems[i].position);
+  }
+  map.fitBounds(bounds);
+
+}
+
 /* create map */
 function initMap() {
   // Constructor creates a new map - only center and zoom are required.
