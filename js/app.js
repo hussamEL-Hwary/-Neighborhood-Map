@@ -9,12 +9,11 @@ var locations = [
 var modelView = function(){
   var self = this;
   self.mapitems = [];
-  /*var map;*/
-  var bounds = new google.maps.LatLngBounds();
+  var infowindow = new google.maps.InfoWindow();
+  var bounds = new google.maps.LatLngBounds();  
 
+  /* create markers */
   for (var i = 0; i < locations.length; i++) {
-
-    // Create a marker per location, and put into markers array.
     var marker = new google.maps.Marker({
       map: map,
       position: locations[i].location,
@@ -27,6 +26,12 @@ var modelView = function(){
     bounds.extend(self.mapitems[i].position);
   }
   map.fitBounds(bounds);
+
+    /* function to make marker bounce */
+    self.makeBounce = function(marker){
+      marker.setAnimation(google.maps.Animation.BOUNCE);
+      setTimeout(function(){ marker.setAnimation(null);}, 1500);
+    };
 
 }
 
