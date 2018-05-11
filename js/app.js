@@ -28,22 +28,19 @@ var modelView = function(){
   }
   map.fitBounds(bounds);
 
+  /* function to make marker bounce */
+  self.makeBounce = function(marker){
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function(){ marker.setAnimation(null);}, 1500);
+  };
 
-
-  
-    /* function to make marker bounce */
-    self.makeBounce = function(marker){
-      marker.setAnimation(google.maps.Animation.BOUNCE);
-      setTimeout(function(){ marker.setAnimation(null);}, 1500);
-    };
-
-    /* get wiki article */
-    self.getMarkerInfo = function(marker){
-      var wikiRequestTimeout = setTimeout(function() {
-      marker.wikiInfo="Can't load data";
-      }, 2000);
+  /* get wiki article */
+  self.getMarkerInfo = function(marker){
+    var wikiRequestTimeout = setTimeout(function() {
+    marker.wikiInfo="Can't load data";
+    }, 2000);
     var wikiURL = "https://en.wikipedia.org/w/api.php?action=opensearch&search=" + 
-     marker.title + "&format=json&callback=wikiCallback";
+    marker.title + "&format=json&callback=wikiCallback";
     $.ajax({
         url: wikiURL,
         dataType: "jsonp",
@@ -57,37 +54,61 @@ var modelView = function(){
           marker.wikiInfo="Can't load data";
         }
     });
-    };
+  };
 
-    // add event to markers
-    for(var i=0; i<self.mapitems.length; i++)
-    {
-      (function(marker){
-        self.getMarkerInfo(marker);
-        marker.addListener('click', function(){
-          self.makeBounce(marker);
-          self.createInfo(marker);
-        });
-      })(self.mapitems[i]);
+  /* add event to markers */
+  for(var i=0; i<self.mapitems.length; i++)
+  {
+    (function(marker){
+      self.getMarkerInfo(marker);
+      marker.addListener('click', function(){
+        self.makeBounce(marker);
+        self.createInfo(marker);
+      });
+    })(self.mapitems[i]);
+  }
+
+  /* create info window for selected marker */
+  self.createInfo = function(marker){
+    info = "<div> <h5>For more info read wikipedia article</h5> <a href='"+ 
+    marker.wikiInfo+ "' target='_blank'>"+marker.wikiInfo+"</a> </div>" ;
+    infowindow.setContent(info);
+    infowindow.open(map, marker);
+  };
+
+  /* show place info when title clicked */
+  self.titleClicked = function(marker){
+    self.makeBounce(marker);
+    self.createInfo(marker);
+  };
+
+  /* filter place title and markers */
+  self.searchFilter = function(){
+    if(self.search_text().length === 0){
+      self.showAllMarkers();
+    }
+    else{
+      for (var i = 0; i<self.mapitems.length; i++){
+        if(self.mapitems[i].title.toLowerCase().indexOf(self.search_text().toLowerCase()) != -1){
+          self.mapitems[i].show(true);
+          self.mapitems[i].setVisible(true);
+        }else{
+          self.mapitems[i].show(false);
+          self.mapitems[i].setVisible(false);
+        }
+      }
     }
 
-    /* create info window for selected marker */
-    self.createInfo = function(marker){
-     info = "<div> <h5>For more info read wikipedia article</h5> <a href='"+ 
-     marker.wikiInfo+ "' target='_blank'>"+marker.wikiInfo+"</a> </div>" ;
+  };
 
-     infowindow.setContent(info);
-      infowindow.open(map, marker);
-    };
-
-    /* show place info when title clicked */
-    self.titleClicked = function(marker){
-      self.makeBounce(marker);
-      self.createInfo(marker);
-    };
-
+  /* view places titles and markers */
+  self.showAllMarkers = function(){
+    for(var i = 0; i<self.mapitems.length; i++){
+      self.mapitems[i].show(true);
+      self.mapitems[i].setVisible(true);
+    }
+  };
 }
-
 
 /* create map */
 function initMap() {
