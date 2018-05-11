@@ -43,9 +43,6 @@ var modelView = function(){
    * and handel request error
    */
   self.getMarkerInfo = function(marker){
-    var wikiRequestTimeout = setTimeout(function() {
-    marker.wikiInfo="Can't load data";
-    }, 2000);
     var wikiURL = "https://en.wikipedia.org/w/api.php?action=opensearch&search=" + 
     marker.title + "&format=json&callback=wikiCallback";
     $.ajax({
