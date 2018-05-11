@@ -11,6 +11,12 @@ body {
     height: 80%;
 }
 
+#map-error {
+    font-size: 25px;
+    text-align: center;
+    color: #6d4e4e;
+}
+
 /* upper navbar */
 .upper-nav {
     height: 8%;
