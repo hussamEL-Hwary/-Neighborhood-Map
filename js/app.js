@@ -1,14 +1,15 @@
 var locations = [
-  {name: 'Giza pyramids', location: {lat: 29.979322, lng: 31.132781}},
-  {name: 'Dream land ', location: {lat: 29.976320, lng: 31.037594}},
-  {name: 'Grand Egyptian Museum', location: {lat: 29.994948, lng: 31.118989}},
-  {name: 'Cairo University', location: {lat: 30.026301, lng: 31.200953}},
-  {name: 'Pyramid of Djoser', location: {lat: 29.871261, lng: 31.216554}}
+  {name: 'Giza pyramids', show: true, location: {lat: 29.979322, lng: 31.132781}},
+  {name: 'Dream land ', show: true, location: {lat: 29.976320, lng: 31.037594}},
+  {name: 'Grand Egyptian Museum', show: true, location: {lat: 29.994948, lng: 31.118989}},
+  {name: 'Cairo University', show: true, location: {lat: 30.026301, lng: 31.200953}},
+  {name: 'Pyramid of Djoser',show: true, location: {lat: 29.871261, lng: 31.216554}}
 ];
 
 var modelView = function(){
   var self = this;
   self.mapitems = [];
+  self.search_text = ko.observable('');
   var infowindow = new google.maps.InfoWindow();
   var bounds = new google.maps.LatLngBounds();  
 
@@ -19,7 +20,7 @@ var modelView = function(){
       position: locations[i].location,
       title: locations[i].name,
       animation: google.maps.Animation.DROP,
-      id: i
+      show: ko.observable(locations[i].show)
     });
 
     self.mapitems.push(marker);
@@ -27,6 +28,9 @@ var modelView = function(){
   }
   map.fitBounds(bounds);
 
+
+
+  
     /* function to make marker bounce */
     self.makeBounce = function(marker){
       marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -53,7 +57,7 @@ var modelView = function(){
           marker.wikiInfo="Can't load data";
         }
     });
-    }
+    };
 
     // add event to markers
     for(var i=0; i<self.mapitems.length; i++)
@@ -74,7 +78,7 @@ var modelView = function(){
 
      infowindow.setContent(info);
       infowindow.open(map, marker);
-    }
+    };
 }
 
 
@@ -85,14 +89,19 @@ function initMap() {
     center: {lat: 29.979322, lng: 31.132781},
     zoom: 15
   });
-  ko.applyBindings(modelView);
+  ko.applyBindings(new modelView());
+}
+
+/* handel map error */
+function mapError(){
+  $('#map-error').text("Sorry can't load the map try later :( ")
 }
 
 /* open and hide side bar */
 function openNav() {
-  $('.upper-nav').css("margin-left", "19%");
-  $('#map').css("margin-left", "19%");
-  $('#left-nav').css("width", "19%");
+  $('.upper-nav').css("margin-left", "250px");
+  $('#map').css("margin-left", "250px");
+  $('#left-nav').css("width", "250px");
   $('.nav-icon').hide();
 }
 
