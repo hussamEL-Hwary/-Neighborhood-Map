@@ -48,16 +48,16 @@ var modelView = function(){
     $.ajax({
         url: wikiURL,
         dataType: "jsonp",
-        success: function(response) {
-            var list = response[1];
-            var link = "https://en.wikipedia.org/wiki/" + list[0];
-              marker.wikiInfo=link;
-              clearTimeout(wikiRequestTimeout);
-        },
-        error: function(e){
-          marker.wikiInfo="Can't load data";
-        }
-    });
+    })
+    .done(function(response) {
+        var list = response[1];
+        var link = "https://en.wikipedia.org/wiki/" + list[0];
+        marker.wikiInfo=link;
+        clearTimeout(wikiRequestTimeout);
+      })
+    .fail(function(e){
+         marker.error="Can't load data";
+        });
   };
 
   /**
@@ -78,9 +78,14 @@ var modelView = function(){
    * @description create info window for selected marker
    */
   self.createInfo = function(marker){
+    if(marker.wikiInfo !=undefined){
     info = "<div> <h5>For more info read wikipedia article</h5> <a href='"+ 
     marker.wikiInfo+ "' target='_blank'>"+marker.wikiInfo+"</a> </div>" ;
     infowindow.setContent(info);
+  }else{
+    info = "<div> <h4>"+marker.error+"</h4></div>";
+    infowindow.setContent(info);
+  }
     infowindow.open(map, marker);
   };
 
