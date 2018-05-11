@@ -16,17 +16,20 @@
     <section id="left-nav" class="left-nav">    
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <h2 class="side-head">Giza Locations</h2>
-        <input type="search" class="filter" placeholder="Filter" name="filter" id="filter">        
+        <input type="search" data-bind="value: search_text, valueUpdate: 'afterkeydown', event: {keyup: searchFilter}"  class="filter" placeholder="Filter">        
+        <ul data-bind="foreach: mapitems">
+          <li class="location-name" data-bind="text: title, visible: show, click: $parent.titleClicked"></li>
+        </ul>
     </section>
     
+    <div id="map-error"></div>
     <div id="map"></div>
     
     <script src="js/knockout-3.4.2.js"></script>
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/app.js"></script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFoZAkCACk6sAhpBQ1fP0SszrTqMkuI0M&v=3&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFoZAkCACk6sAhpBQ1fP0SszrTqMkuI0M&v=3&callback=initMap" onerror="mapError()">
     </script>
-    
 </body>
 </html>
