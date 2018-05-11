@@ -13,7 +13,9 @@ var modelView = function(){
   var infowindow = new google.maps.InfoWindow();
   var bounds = new google.maps.LatLngBounds();  
 
-  /* create markers */
+  /**
+   * @description create markers 
+   */ 
   for (var i = 0; i < locations.length; i++) {
     var marker = new google.maps.Marker({
       map: map,
@@ -27,14 +29,19 @@ var modelView = function(){
     bounds.extend(self.mapitems[i].position);
   }
   map.fitBounds(bounds);
-
-  /* function to make marker bounce */
+  
+  /**
+   *@description function to make marker bounce 
+   */
   self.makeBounce = function(marker){
     marker.setAnimation(google.maps.Animation.BOUNCE);
     setTimeout(function(){ marker.setAnimation(null);}, 1500);
   };
 
-  /* get wiki article */
+  /**
+   * @description get wiki article  via ajax request
+   * and handel request error
+   */
   self.getMarkerInfo = function(marker){
     var wikiRequestTimeout = setTimeout(function() {
     marker.wikiInfo="Can't load data";
@@ -56,7 +63,9 @@ var modelView = function(){
     });
   };
 
-  /* add event to markers */
+  /**
+   *@description add event to markers 
+   */
   for(var i=0; i<self.mapitems.length; i++)
   {
     (function(marker){
@@ -68,7 +77,9 @@ var modelView = function(){
     })(self.mapitems[i]);
   }
 
-  /* create info window for selected marker */
+  /**
+   * @description create info window for selected marker
+   */
   self.createInfo = function(marker){
     info = "<div> <h5>For more info read wikipedia article</h5> <a href='"+ 
     marker.wikiInfo+ "' target='_blank'>"+marker.wikiInfo+"</a> </div>" ;
@@ -76,13 +87,17 @@ var modelView = function(){
     infowindow.open(map, marker);
   };
 
-  /* show place info when title clicked */
+  /**
+   * @description show place info when title clicked 
+  */
   self.titleClicked = function(marker){
     self.makeBounce(marker);
     self.createInfo(marker);
   };
 
-  /* filter place title and markers */
+  /**
+   * @description filter place title and markers
+  */
   self.searchFilter = function(){
     if(self.search_text().length === 0){
       self.showAllMarkers();
@@ -101,7 +116,9 @@ var modelView = function(){
 
   };
 
-  /* view places titles and markers */
+  /**
+   * @description view places titles and markers
+   */
   self.showAllMarkers = function(){
     for(var i = 0; i<self.mapitems.length; i++){
       self.mapitems[i].show(true);
@@ -110,7 +127,9 @@ var modelView = function(){
   };
 }
 
-/* create map */
+/**
+ * @description create map 
+*/
 function initMap() {
   // Constructor creates a new map - only center and zoom are required.
   map = new google.maps.Map(document.getElementById('map'), {
@@ -120,12 +139,16 @@ function initMap() {
   ko.applyBindings(new modelView());
 }
 
-/* handel map error */
+/**
+ * @description handel map error
+*/
 function mapError(){
   $('#map-error').text("Sorry can't load the map try later :( ")
 }
 
-/* open and hide side bar */
+/**
+ * @description open and hide side bar
+*/
 function openNav() {
   $('.upper-nav').css("margin-left", "250px");
   $('#map').css("margin-left", "250px");
