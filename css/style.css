@@ -65,3 +65,9 @@ body {
     height: 5%;
     text-align: center;
 }
+
+.location-name {
+    color: #fafdfd;
+    margin-bottom: 5%;
+    cursor: pointer;
+}
