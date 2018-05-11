@@ -79,6 +79,13 @@ var modelView = function(){
      infowindow.setContent(info);
       infowindow.open(map, marker);
     };
+
+    /* show place info when title clicked */
+    self.titleClicked = function(marker){
+      self.makeBounce(marker);
+      self.createInfo(marker);
+    };
+
 }
 
 
