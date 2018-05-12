@@ -92,8 +92,7 @@ var modelView = function(){
    * @description show place info when title clicked 
   */
   self.titleClicked = function(marker){
-    self.makeBounce(marker);
-    self.createInfo(marker);
+    google.maps.event.trigger(marker, 'click');
   };
 
   /**
