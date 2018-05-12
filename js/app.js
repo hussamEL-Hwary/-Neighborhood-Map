@@ -62,17 +62,13 @@ var modelView = function(){
   /**
    *@description add event to markers 
    */
-  for(var i=0; i<self.mapitems.length; i++)
-  {
-    (function(marker){
-      self.getMarkerInfo(marker);
-      marker.addListener('click', function(){
-        self.makeBounce(marker);
-        self.createInfo(marker);
-      });
-    })(self.mapitems[i]);
-  }
-
+  self.mapitems.forEach(function(marker){
+    self.getMarkerInfo(marker);
+    marker.addListener('click', function(){
+    self.makeBounce(marker);
+    self.createInfo(marker);
+  });
+  });
   /**
    * @description create info window for selected marker
    */
@@ -103,27 +99,26 @@ var modelView = function(){
       self.showAllMarkers();
     }
     else{
-      for (var i = 0; i<self.mapitems.length; i++){
-        if(self.mapitems[i].title.toLowerCase().indexOf(self.search_text().toLowerCase()) != -1){
-          self.mapitems[i].show(true);
-          self.mapitems[i].setVisible(true);
+      self.mapitems.forEach(function(mapitem){
+        if(mapitem.title.toLowerCase().indexOf(self.search_text().toLowerCase()) != -1){
+          mapitem.show(true);
+          mapitem.setVisible(true);
         }else{
-          self.mapitems[i].show(false);
-          self.mapitems[i].setVisible(false);
+          mapitem.show(false);
+          mapitem.setVisible(false);
         }
-      }
+      });
     }
-
   };
 
   /**
    * @description view places titles and markers
    */
   self.showAllMarkers = function(){
-    for(var i = 0; i<self.mapitems.length; i++){
-      self.mapitems[i].show(true);
-      self.mapitems[i].setVisible(true);
-    }
+    self.mapitems.forEach(function(mapitem){
+      mapitem.show(true);
+      mapitem.setVisible(true);
+    });
   };
 }
 
