@@ -35,7 +35,7 @@ var modelView = function(){
    */
   self.makeBounce = function(marker){
     marker.setAnimation(google.maps.Animation.BOUNCE);
-    setTimeout(function(){ marker.setAnimation(null);}, 1500);
+    setTimeout(function(){ marker.setAnimation(null);}, 700);
   };
 
   /**
@@ -54,7 +54,7 @@ var modelView = function(){
         var link = "https://en.wikipedia.org/wiki/" + list[0];
         marker.wikiInfo=link;
       })
-    .fail(function(e){
+    .fail(function(){
          marker.error="Can't load data";
         });
   };
