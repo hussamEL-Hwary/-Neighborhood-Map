@@ -53,7 +53,6 @@ var modelView = function(){
         var list = response[1];
         var link = "https://en.wikipedia.org/wiki/" + list[0];
         marker.wikiInfo=link;
-        clearTimeout(wikiRequestTimeout);
       })
     .fail(function(e){
          marker.error="Can't load data";
