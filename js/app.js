@@ -16,18 +16,18 @@ var modelView = function(){
   /**
    * @description create markers 
    */ 
-  for (var i = 0; i < locations.length; i++) {
+  locations.forEach(function(location){
     var marker = new google.maps.Marker({
       map: map,
-      position: locations[i].location,
-      title: locations[i].name,
+      position: location.location,
+      title: location.name,
       animation: google.maps.Animation.DROP,
-      show: ko.observable(locations[i].show)
+      show: ko.observable(location.show)
     });
 
     self.mapitems.push(marker);
-    bounds.extend(self.mapitems[i].position);
-  }
+    bounds.extend(location.location);
+  });
   map.fitBounds(bounds);
   
   /**
